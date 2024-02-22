@@ -21,10 +21,13 @@ const server = new Hono<ContextEnv>();
 
 // Add the Remix middleware to your Hono server
 
+server.use("*", basicAuth({ username: "hono", password: "remix" }));
+
+server.use("*", staticAssets());
+
 server.use(
   "*",
-  staticAssets(),
-  basicAuth({ username: "hono", password: "remix" }),
+
   remix({
     build,
     mode: process.env.NODE_ENV as "development" | "production",
