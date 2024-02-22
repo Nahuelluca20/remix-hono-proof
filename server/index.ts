@@ -4,7 +4,8 @@ import { Hono } from "hono";
 // You can also use it with other runtimes
 import { handle } from "hono/cloudflare-pages";
 import { remix } from "remix-hono/handler";
-import { httpsOnly } from "remix-hono/security";
+import { staticAssets } from "remix-hono/cloudflare";
+import { basicAuth } from "hono/basic-auth";
 
 if (process.env.NODE_ENV === "development") logDevReady(build);
 
@@ -19,8 +20,11 @@ type ContextEnv = { Bindings: Bindings; Variables: Variables };
 const server = new Hono<ContextEnv>();
 
 // Add the Remix middleware to your Hono server
+
 server.use(
   "*",
+  staticAssets(),
+  basicAuth({ username: "hono", password: "remix" }),
   remix({
     build,
     mode: process.env.NODE_ENV as "development" | "production",
@@ -30,8 +34,6 @@ server.use(
     },
   })
 );
-
-server.use("*", httpsOnly());
 
 // Create a Cloudflare Pages request handler for your Hono server
 export const onRequest = handle(server);
