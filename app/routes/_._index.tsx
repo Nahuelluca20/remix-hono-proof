@@ -22,17 +22,13 @@ export default function Index() {
           </a>
         </li>
         <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
+          <a href="/dashboard" rel="noreferrer">
+            Dashbord
           </a>
         </li>
         <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
+          <a href="/dashboard/users" rel="noreferrer">
+            Dashbord Users
           </a>
         </li>
       </ul>
