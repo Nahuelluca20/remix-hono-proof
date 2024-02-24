@@ -1,11 +1,11 @@
 import {
-  LoaderFunctionArgs,
-  json,
+  // LoaderFunctionArgs,
+  // json,
   type MetaFunction,
 } from "@remix-run/cloudflare";
-import { queryHotels } from "./queries/queries";
-import { useLoaderData } from "@remix-run/react";
-import HotelList from "~/components/hotel-list";
+// import { queryHotels } from "./queries/queries";
+// import { useLoaderData } from "@remix-run/react";
+// import HotelList from "~/components/hotel-list";
 
 export const meta: MetaFunction = () => {
   return [
@@ -14,14 +14,14 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const loader = async ({ context }: LoaderFunctionArgs) => {
-  const hotels = await queryHotels(context);
+// export const loader = async ({ context }: LoaderFunctionArgs) => {
+//   const hotels = await queryHotels(context);
 
-  return json({ hotels });
-};
+//   return json({ hotels });
+// };
 
 export default function Index() {
-  const hotels = useLoaderData<typeof loader>();
+  // const hotels = useLoaderData<typeof loader>();
 
   return (
     <div
@@ -41,7 +41,7 @@ export default function Index() {
           </a>
         </li>
       </ul>
-      <HotelList hotels={hotels.hotels} />
+      {/* <HotelList hotels={hotels.hotels} /> */}
     </div>
   );
 }
