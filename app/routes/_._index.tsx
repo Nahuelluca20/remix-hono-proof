@@ -1,4 +1,10 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import {
+  LoaderFunctionArgs,
+  json,
+  type MetaFunction,
+} from "@remix-run/cloudflare";
+import { queryHotels } from "./queries/queries";
+import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -7,7 +13,16 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export const loader = async ({ context }: LoaderFunctionArgs) => {
+  const hotels = await queryHotels(context);
+
+  return json({ hotels });
+};
+
 export default function Index() {
+  const hotels = useLoaderData<typeof loader>();
+  console.log(hotels);
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>Welcome to Remix</h1>

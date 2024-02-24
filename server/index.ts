@@ -1,42 +1,26 @@
-import { logDevReady } from "@remix-run/cloudflare";
+import { createRequestHandler, logDevReady } from "@remix-run/cloudflare";
+import type { AppLoadContext } from "@remix-run/cloudflare";
 import * as build from "@remix-run/dev/server-build";
-import { Hono } from "hono";
+// import { Hono } from "hono";
 // You can also use it with other runtimes
-import { handle } from "hono/cloudflare-pages";
-import { remix } from "remix-hono/handler";
-import { staticAssets } from "remix-hono/cloudflare";
-import { basicAuth } from "hono/basic-auth";
+// import { handle } from "hono/cloudflare-pages";
+// import { remix } from "remix-hono/handler";
+// import { staticAssets } from "remix-hono/cloudflare";
+// import { basicAuth } from "hono/basic-auth";
+import { EnvSchema } from "./env";
+
+const remix = createRequestHandler(build, build.mode);
 
 if (process.env.NODE_ENV === "development") logDevReady(build);
 
-/* type your Cloudflare bindings here */
-type Bindings = {};
+export async function onRequest(
+  ctx: EventContext<RuntimeEnv, any, Record<string, unknown>>
+) {
+  const env = EnvSchema.parse(ctx.env);
+  const response = await remix(ctx.request, {
+    env,
+    db: ctx.env.DB,
+  } satisfies AppLoadContext);
 
-/* type your Hono variables (used with c.get/c.set) here */
-type Variables = {};
-
-type ContextEnv = { Bindings: Bindings; Variables: Variables };
-
-const server = new Hono<ContextEnv>();
-
-// Add the Remix middleware to your Hono server
-
-server.use("*", basicAuth({ username: "hono", password: "remix" }));
-
-server.use("*", staticAssets());
-
-server.use(
-  "*",
-
-  remix({
-    build,
-    mode: process.env.NODE_ENV as "development" | "production",
-    // getLoadContext is optional, the default function is the same as here
-    getLoadContext(c) {
-      return c.env;
-    },
-  })
-);
-
-// Create a Cloudflare Pages request handler for your Hono server
-export const onRequest = handle(server);
+  return response;
+}
