@@ -17,6 +17,8 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
   const hotels = await queryHotels(context);
 
   return json({ hotels });
+  // console.log(context);
+  // return null;
 };
 
 export default function Index() {
