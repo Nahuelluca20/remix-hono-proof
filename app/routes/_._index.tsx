@@ -24,18 +24,12 @@ export default function Index() {
   const hotels = useLoaderData<typeof loader>();
 
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
+    <div
+      style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}
+      className="flex w-full px-10 text-center space-y-5 flex-col items-center py-10 justify-center"
+    >
+      <h1 className="text-3xl font-bold">Remix + Hono + Neon</h1>
       <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
         <li>
           <a href="/dashboard" rel="noreferrer">
             Dashbord

@@ -16,7 +16,7 @@ interface HotelsInterface {
 
 export default function HotelList({ hotels }: HotelsInterface) {
   return (
-    <ul className="px-20 space-y-5">
+    <ul className="w-full space-y-5 flex flex-col justify-center items-center">
       {hotels.map((hotel) => (
         <HotelListItem
           key={hotel.id}
